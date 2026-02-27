@@ -1,13 +1,16 @@
 using Clinic.API.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. СЕРВИСЫ
 builder.Services.AddControllers()
-    .AddJsonOptions(options => 
+    .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        // Это убирает бесконечные циклы (врач -> спец -> врач)
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.WriteIndented = true; // Сделает JSON красивым и читаемым
     });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -10,4 +10,5 @@ public class Specialization
 
     [Column("name")]
     public string Name { get; set; } = null!;
+    public List<Doctor> Doctors { get; set; } = new();
 }
